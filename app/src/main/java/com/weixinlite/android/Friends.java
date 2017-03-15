@@ -12,6 +12,7 @@ public class Friends extends DataSupport {
     private String name;
     private int imageId;
     private String msg;
+    private String time;
 
     public int getId() {
         return id;
@@ -43,5 +44,13 @@ public class Friends extends DataSupport {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }
