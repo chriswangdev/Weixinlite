@@ -1,0 +1,11 @@
+<litepal>
+
+    <dbname value="weixinlite" />
+
+    <version value="1" />
+
+    <list>
+        <mapping class="com.weixinlite.android.db.Friends" />
+    </list>
+
+</litepal>
