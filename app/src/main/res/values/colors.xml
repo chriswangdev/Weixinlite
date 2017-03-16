@@ -3,4 +3,6 @@
     <color name="colorPrimary">#000</color>
     <color name="colorPrimaryDark">#000</color>
     <color name="colorAccent">#FF44</color>
+    <color name="qianhuise">#C7C7C7</color>
+    <color name="shenhuise">#969696</color>
 </resources>
