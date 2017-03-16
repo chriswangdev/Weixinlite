@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">微信lite</string>
+    <string name="weixin">微信</string>
+    <string name="tongxunlu">通讯录</string>
+    <string name="faxian">发现</string>
+    <string name="wo">我</string>
 </resources>
