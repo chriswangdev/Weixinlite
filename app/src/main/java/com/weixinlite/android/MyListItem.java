@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -14,7 +15,7 @@ import android.widget.TextView;
  * 用来显示每个单条的内容
  */
 
-public class MyListItem extends LinearLayout {
+public class MyListItem extends RelativeLayout {
 
     private View view;
 
