@@ -4,6 +4,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.weixinlite.android.Friends;
 import com.weixinlite.android.R;
@@ -30,6 +33,9 @@ import java.util.Map;
 
 public class Fragment_weixin extends Fragment {
 
+
+    private static final String TAG = "Fragment_weixin";
+
     private static Fragment_weixin fragment_weixin;
 
     public static Fragment_weixin newInstance() {
@@ -42,6 +48,9 @@ public class Fragment_weixin extends Fragment {
     private ListView listView;
     private ListView popuplistView;
     private PopupWindow popupWindow;
+
+    //判断选中的listitem
+    private int item_selected = -1;
 
     private List<Friends> friendsListsave = null;
 
@@ -61,7 +70,7 @@ public class Fragment_weixin extends Fragment {
             friendsListsave = getData();
         }
 
-        MyAdapter adapter = new MyAdapter(getContext(), friendsListsave);
+        final MyAdapter adapter = new MyAdapter(getContext(), friendsListsave);
 
         listView.setAdapter(adapter);
 
@@ -83,7 +92,39 @@ public class Fragment_weixin extends Fragment {
                 setbackgroundalph(0.6f);
                 popupWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
 
+                item_selected = position;
+
                 return true;
+            }
+        });
+
+        popuplistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(getActivity(), "clicked " + position, Toast.LENGTH_SHORT).show();
+
+                switch (position) {
+                    case 0:
+                        Toast.makeText(getActivity(), "标为未读", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
+                        Toast.makeText(getActivity(), "置顶聊天", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(getActivity(), "删除该聊天", Toast.LENGTH_SHORT).show();
+                        if (item_selected != -1) {
+                            friendsListsave.remove(item_selected);
+                            listView.setAdapter(adapter);
+                            //listView.invalidate();
+
+                            item_selected = -1;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                popupWindow.dismiss();
             }
         });
 
@@ -101,28 +142,32 @@ public class Fragment_weixin extends Fragment {
         friends.setTime("10:05");
         list.add(friends);
 
-        friends = new Friends();
-        friends.setImageId(R.drawable.beautytwo);
-        friends.setName("小丽");
-        friends.setMsg("你好");
-        friends.setTime("10:20");
-        list.add(friends);
+        for (int i = 0; i < 6; i++) {
+
+            friends = new Friends();
+            friends.setImageId(R.drawable.beautytwo);
+            friends.setName("小丽" + i);
+            friends.setMsg("你好");
+            friends.setTime("10:20");
+            list.add(friends);
 
 
-        friends = new Friends();
-        friends.setImageId(R.drawable.beautythree);
-        friends.setName("小小");
-        friends.setMsg("阿什顿飞");
-        friends.setTime("15:45");
-        list.add(friends);
+            friends = new Friends();
+            friends.setImageId(R.drawable.beautythree);
+            friends.setName("小小" + i);
+            friends.setMsg("阿什顿飞");
+            friends.setTime("15:45");
+            list.add(friends);
 
 
-        friends = new Friends();
-        friends.setImageId(R.drawable.beautyfour);
-        friends.setName("妹子");
-        friends.setMsg("隧道股份");
-        friends.setTime("17:05");
-        list.add(friends);
+            friends = new Friends();
+            friends.setImageId(R.drawable.beautyfour);
+            friends.setName("妹子" + i);
+            friends.setMsg("隧道股份");
+            friends.setTime("17:05");
+            list.add(friends);
+
+        }
 
         return list;
     }
@@ -161,6 +206,10 @@ public class Fragment_weixin extends Fragment {
         return list;
     }*/
 
+    /*int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+    int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);*/
+
+
     private void initpopupwindow() {
         View mview = getActivity().getLayoutInflater().inflate(R.layout.pop_list, null);
 
@@ -168,6 +217,21 @@ public class Fragment_weixin extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout
                 .simple_list_item_1, s);
         popuplistView.setAdapter(adapter);
+
+        /*popuplistView.measure(w, h);
+
+        Log.e(TAG, "initpopupwindow:--- mwidth = " + popuplistView.getWidth());
+        Log.e(TAG, "initpopupwindow:--- mwidthsss = " + popuplistView.getMeasuredWidth());
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        int widthview = mview.getWidth() / 2;
+
+        Log.e(TAG, "1111111initpopupwindow: width = " + width + "  widthview = " + widthview);
+
+        popupWindow = new PopupWindow(mview, popuplistView.getMeasuredWidth() , ViewGroup
+                .LayoutParams.WRAP_CONTENT);*/
 
         popupWindow = new PopupWindow(mview, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup
                 .LayoutParams.WRAP_CONTENT);

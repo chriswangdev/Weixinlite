@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         myView_faxian.setOnClickListener(this);
         myView_wo.setOnClickListener(this);
 
-
         myViews.add(myView_weixin);
         myViews.add(myView_tongxunlu);
         myViews.add(myView_faxian);

@@ -61,7 +61,7 @@ public class MyAdapter extends BaseAdapter {
             viewHolder.item_time = (TextView) convertView.findViewById(R.id.item_time);
             convertView.setTag(viewHolder);
         } else {
-            convertView.getTag();
+            viewHolder = (ViewHolder) convertView.getTag();
         }
         //Log.e(TAG, "getView: ----  position = " + position);
         //viewHolder.item_img.setImageResource(friendsList.get(position).getImageId());
