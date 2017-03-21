@@ -74,6 +74,7 @@ public class MyAdapter extends BaseAdapter {
             //如果置顶
             viewHolder.item_all.setBackgroundResource(R.color.qianhuise);
         } else {
+            //取消置顶
             viewHolder.item_all.setBackgroundResource(R.drawable.item_clicked);
         }
 

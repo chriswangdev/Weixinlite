@@ -90,6 +90,15 @@ public class Fragment_weixin extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long
                     id) {
                 setbackgroundalph(0.6f);
+
+                if (friendsListsave.get(position).getIstop()) {
+                    arrayadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, s2);
+                    popuplistView.setAdapter(arrayadapter);
+                } else {
+                    arrayadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, s);
+                    popuplistView.setAdapter(arrayadapter);
+                }
+
                 popupWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
 
                 item_selected = position;
@@ -112,11 +121,13 @@ public class Fragment_weixin extends Fragment {
                         if (item_selected != -1) {
                             friendsListsave.add(0,friendsListsave.get(item_selected));
 
-                            friendsListsave.get(0).setIstop(true);
+                            if (!friendsListsave.get(position).getIstop()) {
+                                friendsListsave.get(0).setIstop(true);
+                            } else {
+                                friendsListsave.get(0).setIstop(false);
+                            }
 
                             friendsListsave.remove(item_selected + 1);
-
-                            //置顶背景深色
 
                             listView.setAdapter(adapter);
                             item_selected = -1;
@@ -225,30 +236,15 @@ public class Fragment_weixin extends Fragment {
 
     /*int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
     int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);*/
-
-
+    private ArrayAdapter<String> arrayadapter ;
+    private View mview;
     private void initpopupwindow() {
-        View mview = getActivity().getLayoutInflater().inflate(R.layout.pop_list, null);
+         mview = getActivity().getLayoutInflater().inflate(R.layout.pop_list, null);
 
         popuplistView = (ListView) mview.findViewById(R.id.pop_list);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout
+        /*adapter = new ArrayAdapter<String>(getContext(), android.R.layout
                 .simple_list_item_1, s);
-        popuplistView.setAdapter(adapter);
-
-        /*popuplistView.measure(w, h);
-
-        Log.e(TAG, "initpopupwindow:--- mwidth = " + popuplistView.getWidth());
-        Log.e(TAG, "initpopupwindow:--- mwidthsss = " + popuplistView.getMeasuredWidth());
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int width = displayMetrics.widthPixels;
-        int widthview = mview.getWidth() / 2;
-
-        Log.e(TAG, "1111111initpopupwindow: width = " + width + "  widthview = " + widthview);
-
-        popupWindow = new PopupWindow(mview, popuplistView.getMeasuredWidth() , ViewGroup
-                .LayoutParams.WRAP_CONTENT);*/
+        popuplistView.setAdapter(adapter);*/
 
         popupWindow = new PopupWindow(mview, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup
                 .LayoutParams.WRAP_CONTENT);
@@ -268,5 +264,6 @@ public class Fragment_weixin extends Fragment {
     }
 
     String[] s = new String[]{"标为未读", "置顶聊天", "删除该聊天"};
+    String[] s2 = new String[]{"标为未读", "取消置顶", "删除该聊天"};
 
 }
