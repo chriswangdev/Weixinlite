@@ -23,6 +23,8 @@ import com.weixinlite.android.Friends;
 import com.weixinlite.android.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +55,9 @@ public class Fragment_weixin extends Fragment {
     private int item_selected = -1;
 
     private List<Friends> friendsListsave = null;
+    //存储置顶
+    private List<Friends> friendsListTop = new ArrayList<Friends>();
+    private List<Friends> friendsListnotTop = new ArrayList<Friends>();
 
     @Nullable
     @Override
@@ -68,9 +73,12 @@ public class Fragment_weixin extends Fragment {
 
         if (friendsListsave == null) {
             friendsListsave = getData();
+            friendsListnotTop = getData();
         }
 
         final MyAdapter adapter = new MyAdapter(getContext(), friendsListsave);
+
+        Collections.sort(friendsListsave);
 
         listView.setAdapter(adapter);
 
@@ -92,10 +100,12 @@ public class Fragment_weixin extends Fragment {
                 setbackgroundalph(0.6f);
 
                 if (friendsListsave.get(position).getIstop()) {
-                    arrayadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, s2);
+                    arrayadapter = new ArrayAdapter<String>(getContext(), android.R.layout
+                            .simple_list_item_1, s2);
                     popuplistView.setAdapter(arrayadapter);
                 } else {
-                    arrayadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, s);
+                    arrayadapter = new ArrayAdapter<String>(getContext(), android.R.layout
+                            .simple_list_item_1, s);
                     popuplistView.setAdapter(arrayadapter);
                 }
 
@@ -117,24 +127,52 @@ public class Fragment_weixin extends Fragment {
                         Toast.makeText(getActivity(), "标为未读", Toast.LENGTH_SHORT).show();
                         break;
                     case 1:
-                        Toast.makeText(getActivity(), "置顶聊天", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "置顶聊天", Toast.LENGTH_SHORT).show();
                         if (item_selected != -1) {
-                            friendsListsave.add(0,friendsListsave.get(item_selected));
+                            if (!friendsListsave.get(item_selected).getIstop()) {
+                                //未置顶
+                                //添加到置顶list
 
-                            if (!friendsListsave.get(position).getIstop()) {
-                                friendsListsave.get(0).setIstop(true);
+                                //Log.e(TAG, "onItemClick: item_selected = " + item_selected);
+                                friendsListnotTop.remove(item_selected - friendsListTop.size());
+                                friendsListTop.add(0, friendsListsave.get(item_selected));
+                                friendsListTop.get(0).setIstop(true);
+                                //friendsListsave.add(0,friendsListsave.get(item_selected));
+                                //friendsListsave.get(0).setIstop(true);
+                                //friendsListsave.remove(item_selected + 1);
+
+
+                                friendsListsave.removeAll(friendsListsave);
+
+                                friendsListsave.addAll(friendsListTop);
+                                friendsListsave.addAll(friendsListnotTop);
+                                //Collections.sort(friendsListsave);
+
+                                listView.setAdapter(adapter);
+
                             } else {
-                                friendsListsave.get(0).setIstop(false);
+                                //friendsListsave.get(item_selected).setIstop(false);
+                                //Collections.sort(friendsListsave);
+                                friendsListTop.get(item_selected).setIstop(false);
+                                friendsListnotTop.add(friendsListTop.get(item_selected));
+                                friendsListTop.remove(item_selected);
+                                
+                                Collections.sort(friendsListnotTop);
+
+                                friendsListsave.removeAll(friendsListsave);
+
+                                friendsListsave.addAll(friendsListTop);
+                                friendsListsave.addAll(friendsListnotTop);
+                                //friendsListsave.addAll(0, friendsListTop);
+
+
+                                listView.setAdapter(adapter);
                             }
-
-                            friendsListsave.remove(item_selected + 1);
-
-                            listView.setAdapter(adapter);
                             item_selected = -1;
                         }
                         break;
                     case 2:
-                        Toast.makeText(getActivity(), "删除该聊天", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(getActivity(), "删除该聊天", Toast.LENGTH_SHORT).show();
                         if (item_selected != -1) {
                             //删除该聊天
                             friendsListsave.remove(item_selected);
@@ -167,7 +205,7 @@ public class Fragment_weixin extends Fragment {
         friends.setIstop(false);
         list.add(friends);
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 2; i++) {
 
             friends = new Friends();
             friends.setImageId(R.drawable.beautytwo);
@@ -236,10 +274,11 @@ public class Fragment_weixin extends Fragment {
 
     /*int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
     int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);*/
-    private ArrayAdapter<String> arrayadapter ;
+    private ArrayAdapter<String> arrayadapter;
     private View mview;
+
     private void initpopupwindow() {
-         mview = getActivity().getLayoutInflater().inflate(R.layout.pop_list, null);
+        mview = getActivity().getLayoutInflater().inflate(R.layout.pop_list, null);
 
         popuplistView = (ListView) mview.findViewById(R.id.pop_list);
         /*adapter = new ArrayAdapter<String>(getContext(), android.R.layout

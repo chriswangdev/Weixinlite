@@ -6,7 +6,7 @@ import org.litepal.crud.DataSupport;
  * Created by a on 2017/3/15 0015.
  */
 
-public class Friends extends DataSupport {
+public class Friends extends DataSupport implements Comparable<Friends>{
 
     private int id;
     private String name;
@@ -61,5 +61,11 @@ public class Friends extends DataSupport {
 
     public void setIstop(boolean istop) {
         this.istop = istop;
+    }
+
+    @Override
+    public int compareTo(Friends another) {
+        //return this.getName().compareTo(another.getName());
+        return this.getTime().compareTo(another.getTime());
     }
 }
