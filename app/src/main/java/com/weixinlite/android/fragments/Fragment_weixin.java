@@ -109,10 +109,23 @@ public class Fragment_weixin extends Fragment {
                         break;
                     case 1:
                         Toast.makeText(getActivity(), "置顶聊天", Toast.LENGTH_SHORT).show();
+                        if (item_selected != -1) {
+                            friendsListsave.add(0,friendsListsave.get(item_selected));
+
+                            friendsListsave.get(0).setIstop(true);
+
+                            friendsListsave.remove(item_selected + 1);
+
+                            //置顶背景深色
+
+                            listView.setAdapter(adapter);
+                            item_selected = -1;
+                        }
                         break;
                     case 2:
                         Toast.makeText(getActivity(), "删除该聊天", Toast.LENGTH_SHORT).show();
                         if (item_selected != -1) {
+                            //删除该聊天
                             friendsListsave.remove(item_selected);
                             listView.setAdapter(adapter);
                             //listView.invalidate();
@@ -140,6 +153,7 @@ public class Fragment_weixin extends Fragment {
         friends.setName("小王");
         friends.setMsg("你好");
         friends.setTime("10:05");
+        friends.setIstop(false);
         list.add(friends);
 
         for (int i = 0; i < 6; i++) {
@@ -149,6 +163,7 @@ public class Fragment_weixin extends Fragment {
             friends.setName("小丽" + i);
             friends.setMsg("你好");
             friends.setTime("10:20");
+            friends.setIstop(false);
             list.add(friends);
 
 
@@ -157,6 +172,7 @@ public class Fragment_weixin extends Fragment {
             friends.setName("小小" + i);
             friends.setMsg("阿什顿飞");
             friends.setTime("15:45");
+            friends.setIstop(false);
             list.add(friends);
 
 
@@ -165,6 +181,7 @@ public class Fragment_weixin extends Fragment {
             friends.setName("妹子" + i);
             friends.setMsg("隧道股份");
             friends.setTime("17:05");
+            friends.setIstop(false);
             list.add(friends);
 
         }

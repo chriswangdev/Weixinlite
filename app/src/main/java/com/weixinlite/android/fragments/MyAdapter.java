@@ -1,12 +1,15 @@
 package com.weixinlite.android.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -55,6 +58,7 @@ public class MyAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.mylist_item, parent,
                     false);
+            viewHolder.item_all = (RelativeLayout) convertView.findViewById(R.id.item_all);
             viewHolder.item_img = (ImageView) convertView.findViewById(R.id.item_img);
             viewHolder.item_name = (TextView) convertView.findViewById(R.id.item_name);
             viewHolder.item_msg = (TextView) convertView.findViewById(R.id.item_msg);
@@ -66,6 +70,13 @@ public class MyAdapter extends BaseAdapter {
         //Log.e(TAG, "getView: ----  position = " + position);
         //viewHolder.item_img.setImageResource(friendsList.get(position).getImageId());
 
+        if (friendsList.get(position).getIstop()) {
+            //如果置顶
+            viewHolder.item_all.setBackgroundResource(R.color.qianhuise);
+        } else {
+            viewHolder.item_all.setBackgroundResource(R.drawable.item_clicked);
+        }
+
         Glide.with(mContext).load(friendsList.get(position).getImageId()).into(viewHolder.item_img);
         viewHolder.item_name.setText(friendsList.get(position).getName());
         viewHolder.item_msg.setText(friendsList.get(position).getMsg());
@@ -76,6 +87,7 @@ public class MyAdapter extends BaseAdapter {
 
     public class ViewHolder {
 
+        RelativeLayout item_all;
         ImageView item_img;
         TextView item_name;
         TextView item_msg;

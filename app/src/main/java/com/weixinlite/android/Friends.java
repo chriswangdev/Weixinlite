@@ -13,6 +13,7 @@ public class Friends extends DataSupport {
     private int imageId;
     private String msg;
     private String time;
+    private boolean istop = false;//判断是否置顶
 
     public int getId() {
         return id;
@@ -52,5 +53,13 @@ public class Friends extends DataSupport {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public boolean getIstop() {
+        return istop;
+    }
+
+    public void setIstop(boolean istop) {
+        this.istop = istop;
     }
 }
