@@ -29,6 +29,7 @@ public class MyAdapter extends BaseAdapter {
 
     private List<Friends> friendsList;
     private Context mContext;
+    private int length;
 
     public MyAdapter(Context context, List<Friends> friendsList) {
         mContext = context;
@@ -80,8 +81,11 @@ public class MyAdapter extends BaseAdapter {
 
         Glide.with(mContext).load(friendsList.get(position).getImageId()).into(viewHolder.item_img);
         viewHolder.item_name.setText(friendsList.get(position).getName());
-        viewHolder.item_msg.setText(friendsList.get(position).getMsg().getMsg());
-        viewHolder.item_time.setText(friendsList.get(position).getMsg().getMsgtime());
+        length = friendsList.get(position).getMsgList().size();
+        viewHolder.item_msg.setText(friendsList.get(position).getMsgList().get(length - 1).getMsg());
+        viewHolder.item_time.setText(friendsList.get(position).getMsgList().get(length - 1).getMsgtime());
+        //viewHolder.item_msg.setText(friendsList.get(position).getMsg().getMsg());
+        //viewHolder.item_time.setText(friendsList.get(position).getMsg().getMsgtime());
 
         return convertView;
     }

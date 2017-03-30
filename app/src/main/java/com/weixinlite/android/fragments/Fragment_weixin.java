@@ -64,6 +64,7 @@ public class Fragment_weixin extends Fragment {
     private List<Friends> friendsListTop = new ArrayList<Friends>();
     private List<Friends> friendsListnotTop = new ArrayList<Friends>();
     private List<Msg> msgList = new ArrayList<>();
+    private MyAdapter adapter;
 
     @Nullable
     @Override
@@ -77,36 +78,14 @@ public class Fragment_weixin extends Fragment {
                 new String[]{"imageid", "name", "msg", "time"}, new int[]{R.id.item_img, R.id
                 .item_name, R.id.item_msg, R.id.item_time});*/
 
-        if (friendsListsave.size() == 0) {
+        //if (friendsListsave.size() == 0) {
             //friendsListsave = DataSupport.where("? > 0","msgList").find(Friends.class);//getData();
-            List<Friends> list = DataSupport.findAll(Friends.class);
 
-            Log.e(TAG, "onCreateView: ---- size = " + list.size());
+        refreshchat();
 
-            for (int i = 0;i < list.size(); i++ ) {
-                Friends friends = new Friends();
+        friendsListnotTop.addAll(friendsListsave);
 
-                friends.setName(list.get(i).getName());
-                Log.e(TAG, "onCreateView: ------- friendName = " + friends.getName());
-                msgList = DataSupport.where("friendName = ?",friends.getName()).find(Msg.class);
-                Log.e(TAG, "onCreateView: ----------- msgList = " + msgList.size());
-                if (msgList.size() > 0) {
-                    Msg msg = new Msg();
-                    friends.setIstop(list.get(i).getIstop());
-                    friends.setImageId(list.get(i).getImageId());
-
-                    friends.setMsgList(msgList);
-                    friendsListsave.add(friends);
-                }
-            }
-            friendsListnotTop.addAll(friendsListsave);
-            //friendsListsave = DataSupport.where()
-            /*if (friendsListsave.size() > 0) {
-
-            }*/
-        }
-
-        final MyAdapter adapter = new MyAdapter(getContext(), friendsListsave);
+        adapter = new MyAdapter(getContext(), friendsListsave);
 
         Collections.sort(friendsListsave);
 
@@ -240,84 +219,38 @@ public class Fragment_weixin extends Fragment {
         return view;
     }
 
-    private List<Friends> getData() {
-        List<Friends> list = new ArrayList<>();
-
-        Friends friends = new Friends();
-
-        friends.setImageId(R.drawable.beautyone);
-        friends.setName("小王");
-        friends.getMsg().setMsg("你好");
-        friends.getMsg().setMsgtime("10:05");
-        friends.setIstop(false);
-        list.add(friends);
-
-        //for (int i = 0; i < 2; i++) {
-
-            friends = new Friends();
-            friends.setImageId(R.drawable.beautytwo);
-            friends.setName("小丽");
-            friends.getMsg().setMsg("你好");
-            friends.getMsg().setMsgtime("10:20");
-            friends.setIstop(false);
-            list.add(friends);
-
-
-            friends = new Friends();
-            friends.setImageId(R.drawable.beautythree);
-            friends.setName("小小");
-            friends.getMsg().setMsg("阿什顿飞");
-            friends.getMsg().setMsgtime("15:45");
-            friends.setIstop(false);
-            list.add(friends);
-
-
-            friends = new Friends();
-            friends.setImageId(R.drawable.beautyfour);
-            friends.setName("妹子");
-            friends.getMsg().setMsg("隧道股份");
-            friends.getMsg().setMsgtime("17:05");
-            friends.setIstop(false);
-            list.add(friends);
-
-        //}
-
-        return list;
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshchat();
+        adapter.notifyDataSetChanged();
     }
 
-    /*private List<Map<String, Object>> getData() {
-        List<Map<String, Object>> list = new ArrayList<>();
-        Map<String, Object> map = new HashMap<>();
+    private void refreshchat() {
+        friendsListsave.removeAll(friendsListsave);
+        List<Friends> list = DataSupport.findAll(Friends.class);
 
-        map.put("imageid", R.drawable.beautyone);
-        map.put("name", "小啊");
-        map.put("msg", "你好啊");
-        map.put("time", "10:05");
-        list.add(map);
+        Log.e(TAG, "onCreateView: ---- size = " + list.size());
 
-        map = new HashMap<>();
-        map.put("imageid", R.drawable.beautytwo);
-        map.put("name", "富贵花");
-        map.put("msg", "哈哈哈哈");
-        map.put("time", "12:13");
-        list.add(map);
+        for (int i = 0; i < list.size(); i++) {
+            Friends friends = new Friends();
 
-        map = new HashMap<>();
-        map.put("imageid", R.drawable.beautythree);
-        map.put("name", "很快乐");
-        map.put("msg", "。。。。");
-        map.put("time", "14:22");
-        list.add(map);
+            friends.setName(list.get(i).getName());
+            Log.e(TAG, "onCreateView: ------- friendName = " + friends.getName());
+            msgList = DataSupport.where("friendName = ?", friends.getName()).find(Msg.class);
+            Log.e(TAG, "onCreateView: ----------- msgList = " + msgList.size());
+            if (msgList.size() > 0) {
+                Msg msg = new Msg();
+                friends.setIstop(list.get(i).getIstop());
+                friends.setImageId(list.get(i).getImageId());
 
-        map = new HashMap<>();
-        map.put("imageid", R.drawable.beautyfour);
-        map.put("name", "闪电狗");
-        map.put("msg", "塑料袋");
-        map.put("time", "17:01");
-        list.add(map);
+                friends.setMsgList(msgList);
+                friendsListsave.add(friends);
+            }
+        }
+    }
 
-        return list;
-    }*/
+
 
     /*int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
     int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);*/

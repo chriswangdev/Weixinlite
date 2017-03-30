@@ -17,6 +17,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.weixinlite.android.util.Gettime;
+import com.weixinlite.android.util.Utility;
+
 import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
@@ -59,6 +62,7 @@ public class ChattingActivity extends AppCompatActivity {
                 msg_to_send = chat_input.getText().toString();
                 if (!TextUtils.isEmpty(msg_to_send)) {
                     msg_send = new Msg(msg_to_send, !toggleButton.isChecked());
+                    msg_send.setMsgtime(Gettime.getNowTime());
                     chatmsgList.add(msg_send);
                     adapter.notifyItemInserted(chatmsgList.size());
                     recyclerViewMsg.scrollToPosition(chatmsgList.size() - 1);
@@ -101,6 +105,9 @@ public class ChattingActivity extends AppCompatActivity {
 
     private Friends friendstosave;
 
+    private int chatsize;
+    private int length;
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -110,30 +117,31 @@ public class ChattingActivity extends AppCompatActivity {
         friendstosave.setMsgList(chatmsgList);
         friendstosave.save();*/
 
-        friends.setName(friends.getName());
+        /*friends.setName(friends.getName());
         friends.setMsgList(chatmsgList);
-        friends.save();
+        friends.save();*/
+        chatsize = chatmsgList.size();
+        length = chatsize - friends.getMsgList().size();
+        Log.e(TAG, "onPause: -------- chatmsgList.size = " + length);
 
-        Log.e(TAG, "onPause: -------- chatmsgList.size = " + chatmsgList.size());
+        for (int i = 0; i < length; i ++ ) {
 
-        for (Msg msg : chatmsgList) {
+            Msg msg = chatmsgList.get(chatsize - length + i);
+            Log.e(TAG, "onPause: -------- msg = " + msg.getMsg());
             msg.setMsg(msg.getMsg());
             msg.setType(msg.getType());
             msg.setMsgtime(msg.getMsgtime());
             msg.setFriendName(friends.getName());
             msg.save();
-            /*friends.getMsg().setMsg(msg.getMsg());
-            friends.getMsg().setType(msg.getType());
-            friends.getMsg().setMsgtime(msg.getMsgtime());
-            friends.getMsg().setFriendName(friends.getName());
-            friends.getMsg().save();*/
         }
 
-        //DataSupport.saveAll(friends.getMsgList());
-        //保存单个friend
-        //friends.setIstop(false);
-        //friends.update("name = ? ",friends.getName());
-        //friends.updateAll("name = ? ",friends.getName());
+        /*for (Msg msg : chatmsgList) {
+            msg.setMsg(msg.getMsg());
+            msg.setType(msg.getType());
+            msg.setMsgtime(msg.getMsgtime());
+            msg.setFriendName(friends.getName());
+            msg.save();
+        }*/
     }
 
     @Override

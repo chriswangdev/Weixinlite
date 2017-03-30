@@ -3,6 +3,7 @@ package com.weixinlite.android.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,8 @@ import java.util.List;
  */
 
 public class Fragment_tongxunlu extends Fragment {
+
+    private static final String TAG = "Fragment_tongxunlu";
 
     private static Fragment_tongxunlu fragment_tongxunlu;
     private ListView listView;
@@ -51,7 +54,7 @@ public class Fragment_tongxunlu extends Fragment {
         //btn_save = (Button) view.findViewById(R.id.savetolitepal);
 
         findfriends();
-
+        Log.e(TAG, "onCreateView: -----findfriends();------ size = " + friendsList.size());
         if (friendsList.size() == 0) {
             writetolitepal();
             findfriends();
