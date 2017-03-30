@@ -4,4 +4,9 @@
     <string name="tongxunlu">通讯录</string>
     <string name="faxian">发现</string>
     <string name="wo">我</string>
+    <string name="sendmsg">发送</string>
+    <string name="send">我发</string>
+    <string name="receive">我收</string>
+    <string name="chatmsg">聊天信息</string>
+    <string name="writetolitepal">写入数据库</string>
 </resources>

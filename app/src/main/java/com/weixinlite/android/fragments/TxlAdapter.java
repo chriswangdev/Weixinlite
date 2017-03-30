@@ -1,14 +1,12 @@
 package com.weixinlite.android.fragments;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,20 +17,17 @@ import com.weixinlite.android.R;
 import java.util.List;
 
 /**
- * Created by a on 2017/3/17 0017.
+ * Created by a on 2017/3/29 0029.
  */
 
-public class MyAdapter extends BaseAdapter {
-
-
-    private static final String TAG = "MyAdapter";
+public class TxlAdapter extends BaseAdapter{
 
     private List<Friends> friendsList;
     private Context mContext;
 
-    public MyAdapter(Context context, List<Friends> friendsList) {
-        mContext = context;
+    public TxlAdapter (Context context,List<Friends> friendsList) {
         this.friendsList = friendsList;
+        this.mContext = context;
     }
 
     @Override
@@ -52,50 +47,27 @@ public class MyAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         ViewHolder viewHolder = null;
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.mylist_item, parent,
-                    false);
-            viewHolder.item_all = (RelativeLayout) convertView.findViewById(R.id.item_all);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.mylist_item, parent, false);
             viewHolder.item_img = (ImageView) convertView.findViewById(R.id.item_img);
             viewHolder.item_name = (TextView) convertView.findViewById(R.id.item_name);
             viewHolder.item_msg = (TextView) convertView.findViewById(R.id.item_msg);
-            viewHolder.item_time = (TextView) convertView.findViewById(R.id.item_time);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        //Log.e(TAG, "getView: ----  position = " + position);
-        //viewHolder.item_img.setImageResource(friendsList.get(position).getImageId());
-
-        if (friendsList.get(position).getIstop()) {
-            //如果置顶
-            viewHolder.item_all.setBackgroundResource(R.color.qianhuise);
-        } else {
-            //取消置顶
-            viewHolder.item_all.setBackgroundResource(R.drawable.item_clicked);
-        }
-
         Glide.with(mContext).load(friendsList.get(position).getImageId()).into(viewHolder.item_img);
         viewHolder.item_name.setText(friendsList.get(position).getName());
-        viewHolder.item_msg.setText(friendsList.get(position).getMsg().getMsg());
-        viewHolder.item_time.setText(friendsList.get(position).getMsg().getMsgtime());
+        viewHolder.item_msg.setVisibility(View.GONE);
 
         return convertView;
     }
 
-    public class ViewHolder {
-
-        RelativeLayout item_all;
+    class ViewHolder {
         ImageView item_img;
         TextView item_name;
         TextView item_msg;
-        TextView item_time;
-
     }
-
-
 }
-

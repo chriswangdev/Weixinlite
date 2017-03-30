@@ -1,5 +1,6 @@
 package com.weixinlite.android.fragments;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,8 +20,12 @@ import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.weixinlite.android.ChattingActivity;
 import com.weixinlite.android.Friends;
+import com.weixinlite.android.Msg;
 import com.weixinlite.android.R;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,10 +59,11 @@ public class Fragment_weixin extends Fragment {
     //判断选中的listitem
     private int item_selected = -1;
 
-    private List<Friends> friendsListsave = null;
+    private List<Friends> friendsListsave = new ArrayList<>();
     //存储置顶
     private List<Friends> friendsListTop = new ArrayList<Friends>();
     private List<Friends> friendsListnotTop = new ArrayList<Friends>();
+    private List<Msg> msgList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -71,9 +77,33 @@ public class Fragment_weixin extends Fragment {
                 new String[]{"imageid", "name", "msg", "time"}, new int[]{R.id.item_img, R.id
                 .item_name, R.id.item_msg, R.id.item_time});*/
 
-        if (friendsListsave == null) {
-            friendsListsave = getData();
-            friendsListnotTop = getData();
+        if (friendsListsave.size() == 0) {
+            //friendsListsave = DataSupport.where("? > 0","msgList").find(Friends.class);//getData();
+            List<Friends> list = DataSupport.findAll(Friends.class);
+
+            Log.e(TAG, "onCreateView: ---- size = " + list.size());
+
+            for (int i = 0;i < list.size(); i++ ) {
+                Friends friends = new Friends();
+
+                friends.setName(list.get(i).getName());
+                Log.e(TAG, "onCreateView: ------- friendName = " + friends.getName());
+                msgList = DataSupport.where("friendName = ?",friends.getName()).find(Msg.class);
+                Log.e(TAG, "onCreateView: ----------- msgList = " + msgList.size());
+                if (msgList.size() > 0) {
+                    Msg msg = new Msg();
+                    friends.setIstop(list.get(i).getIstop());
+                    friends.setImageId(list.get(i).getImageId());
+
+                    friends.setMsgList(msgList);
+                    friendsListsave.add(friends);
+                }
+            }
+            friendsListnotTop.addAll(friendsListsave);
+            //friendsListsave = DataSupport.where()
+            /*if (friendsListsave.size() > 0) {
+
+            }*/
         }
 
         final MyAdapter adapter = new MyAdapter(getContext(), friendsListsave);
@@ -93,6 +123,23 @@ public class Fragment_weixin extends Fragment {
                 setbackgroundalph(1f);
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                //Log.e(TAG, "onItemClick: ------   position = " + position);
+                //Toast.makeText(getActivity(), "------   position = " + position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), ChattingActivity.class);
+                //intent.putExtra("toolbar_name",friendsListsave.get(position).getName());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("friends",friendsListsave.get(position));
+                intent.putExtras(bundle);
+                getActivity().startActivity(intent);
+
+            }
+        });
+
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long
@@ -200,40 +247,40 @@ public class Fragment_weixin extends Fragment {
 
         friends.setImageId(R.drawable.beautyone);
         friends.setName("小王");
-        friends.setMsg("你好");
-        friends.setTime("10:05");
+        friends.getMsg().setMsg("你好");
+        friends.getMsg().setMsgtime("10:05");
         friends.setIstop(false);
         list.add(friends);
 
-        for (int i = 0; i < 2; i++) {
+        //for (int i = 0; i < 2; i++) {
 
             friends = new Friends();
             friends.setImageId(R.drawable.beautytwo);
-            friends.setName("小丽" + i);
-            friends.setMsg("你好");
-            friends.setTime("10:20");
+            friends.setName("小丽");
+            friends.getMsg().setMsg("你好");
+            friends.getMsg().setMsgtime("10:20");
             friends.setIstop(false);
             list.add(friends);
 
 
             friends = new Friends();
             friends.setImageId(R.drawable.beautythree);
-            friends.setName("小小" + i);
-            friends.setMsg("阿什顿飞");
-            friends.setTime("15:45");
+            friends.setName("小小");
+            friends.getMsg().setMsg("阿什顿飞");
+            friends.getMsg().setMsgtime("15:45");
             friends.setIstop(false);
             list.add(friends);
 
 
             friends = new Friends();
             friends.setImageId(R.drawable.beautyfour);
-            friends.setName("妹子" + i);
-            friends.setMsg("隧道股份");
-            friends.setTime("17:05");
+            friends.setName("妹子");
+            friends.getMsg().setMsg("隧道股份");
+            friends.getMsg().setMsgtime("17:05");
             friends.setIstop(false);
             list.add(friends);
 
-        }
+        //}
 
         return list;
     }

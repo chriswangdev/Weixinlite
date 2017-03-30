@@ -5,7 +5,8 @@
     <version value="1" />
 
     <list>
-        <mapping class="com.weixinlite.android.db.Friends" />
+        <mapping class="com.weixinlite.android.Friends" />
+        <mapping class="com.weixinlite.android.Msg" />
     </list>
 
 </litepal>

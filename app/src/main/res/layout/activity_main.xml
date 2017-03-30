@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--<include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>-->
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -26,9 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:scaleType="centerInside"
+            app:bottomBitmap="@mipmap/weixin"
             app:text="@string/weixin"
             app:textsize="16sp"
-            app:bottomBitmap="@mipmap/weixin"
             app:topBitmap="@mipmap/weixin_green"/>
 
         <com.weixinlite.android.MyView
@@ -36,9 +40,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            app:bottomBitmap="@mipmap/tongxunlu"
             app:text="@string/tongxunlu"
             app:textsize="16sp"
-            app:bottomBitmap="@mipmap/tongxunlu"
             app:topBitmap="@mipmap/tongxunlu_green"/>
 
         <com.weixinlite.android.MyView
@@ -46,9 +50,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            app:bottomBitmap="@mipmap/faxian"
             app:text="@string/faxian"
             app:textsize="16sp"
-            app:bottomBitmap="@mipmap/faxian"
             app:topBitmap="@mipmap/faxian_green"/>
 
         <com.weixinlite.android.MyView
@@ -56,9 +60,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            app:bottomBitmap="@mipmap/wo"
             app:text="@string/wo"
             app:textsize="16sp"
-            app:bottomBitmap="@mipmap/wo"
             app:topBitmap="@mipmap/wo_green"/>
 
     </LinearLayout>
@@ -67,7 +71,7 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:layout_above="@id/bottom_layout"/>
+        android:layout_above="@id/bottom_layout"
+        android:layout_below="@id/toolbar"/>
 
 </RelativeLayout>

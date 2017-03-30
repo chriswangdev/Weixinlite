@@ -6,30 +6,123 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
 
+import com.weixinlite.android.Friends;
+import com.weixinlite.android.Msg;
 import com.weixinlite.android.R;
+import com.weixinlite.android.util.Gettime;
+import com.weixinlite.android.util.Utility;
+
+import org.litepal.crud.DataSupport;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Created by a on 2017/3/16 0016.
  */
 
-public class Fragment_tongxunlu extends Fragment{
+public class Fragment_tongxunlu extends Fragment {
 
     private static Fragment_tongxunlu fragment_tongxunlu;
+    private ListView listView;
+    private Button btn_save;
+    private List<Friends> friendsList = new ArrayList<>();
+    private TxlAdapter txlAdapter;
 
-    public static Fragment_tongxunlu newInstance () {
+    public static Fragment_tongxunlu newInstance() {
         if (fragment_tongxunlu == null) {
             fragment_tongxunlu = new Fragment_tongxunlu();
         }
-        return  fragment_tongxunlu;
+        return fragment_tongxunlu;
     }
 
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tongxunlu,container,false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+            Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_tongxunlu, container, false);
+
+        listView = (ListView) view.findViewById(R.id.list_tongxunlu);
+        //btn_save = (Button) view.findViewById(R.id.savetolitepal);
+
+        findfriends();
+
+        if (friendsList.size() == 0) {
+            writetolitepal();
+            findfriends();
+        }
+
+        txlAdapter = new TxlAdapter(getContext(), friendsList);
+        listView.setAdapter(txlAdapter);
+
+
         return view;
     }
+
+    private void findfriends() {
+        friendsList = DataSupport.findAll(Friends.class);
+    }
+
+    private void writetolitepal() {
+
+        Friends friends = new Friends();
+
+        friends.setImageId(Utility.getImageId("beautyone",getContext()));//friends.setImageId(R.drawable.beautyone);
+        friends.setName("小王");
+
+        List<Msg> msgList = new ArrayList<>();
+        Msg msg = new Msg("你好",Msg.TYPE_RECEIVED);
+        msg.setFriendName(friends.getName());
+        msg.setMsgtime(Gettime.getNowTime());
+        msg.save();
+        msgList.add(msg);
+        friends.setMsgList(msgList);
+        //friends.setMsg("你好");
+        //friends.setTime("10:05");
+        //friends.setIstop(false);
+        friends.save();
+        //list.add(friends);
+
+        //for (int i = 0; i < 2; i++) {
+
+        friends = new Friends();
+        friends.setImageId(Utility.getImageId("beautytwo",getContext()));
+        friends.setName("小丽");
+        //friends.setMsg("你好");
+        //friends.setTime("10:20");
+        //friends.setIstop(false);
+        friends.save();
+        //list.add(friends);
+
+
+        friends = new Friends();
+        friends.setImageId(Utility.getImageId("beautythree",getContext()));
+        friends.setName("小小");
+        //friends.setMsg("阿什顿飞");
+        //friends.setTime("15:45");
+        //friends.setIstop(false);
+        friends.save();
+        //list.add(friends);
+
+
+        friends = new Friends();
+        friends.setImageId(Utility.getImageId("beautyfour",getContext()));
+        friends.setName("妹子");
+        //friends.setMsg("隧道股份");
+        //friends.setTime("17:05");
+        //friends.setIstop(false);
+        friends.save();
+        // list.add(friends);
+        Utility.myImageId = Utility.getImageId("imgmy",getContext());
+        // }
+
+    }
+
+
+
 }

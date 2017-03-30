@@ -2,18 +2,24 @@ package com.weixinlite.android;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by a on 2017/3/15 0015.
  */
-
-public class Friends extends DataSupport implements Comparable<Friends>{
+//实现Comparable接口，进行排序
+//
+public class Friends extends DataSupport implements Comparable<Friends>, Serializable {
 
     private int id;
     private String name;
     private int imageId;
-    private String msg;
-    private String time;
+    private Msg msg = new Msg();
+    //private String time;
     private boolean istop = false;//判断是否置顶
+    private List<Msg> msgList = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -31,11 +37,11 @@ public class Friends extends DataSupport implements Comparable<Friends>{
         this.imageId = imageId;
     }
 
-    public String getMsg() {
+    public Msg getMsg() {
         return msg;
     }
 
-    public void setMsg(String msg) {
+    public void setMsg(Msg msg) {
         this.msg = msg;
     }
 
@@ -47,13 +53,13 @@ public class Friends extends DataSupport implements Comparable<Friends>{
         this.name = name;
     }
 
-    public String getTime() {
+    /*public String getTime() {
         return time;
     }
 
     public void setTime(String time) {
         this.time = time;
-    }
+    }*/
 
     public boolean getIstop() {
         return istop;
@@ -63,9 +69,21 @@ public class Friends extends DataSupport implements Comparable<Friends>{
         this.istop = istop;
     }
 
+    public List<Msg> getMsgList() {
+        return msgList;
+    }
+
+    public void setMsgList(List<Msg> msgList) {
+        this.msgList = msgList;
+    }
+
     @Override
     public int compareTo(Friends another) {
-        //return this.getName().compareTo(another.getName());
-        return this.getTime().compareTo(another.getTime());
+
+        /*return this.getMsgList().get(this.getMsgList().size()).getMsgtime().compareTo(another
+                .getMsgList().get(another.getMsgList().size()).getMsgtime());*/
+        return this.getName().compareTo(another.getName());
+        //return this.msg.getMsgtime().compareTo(another.msg.getMsgtime());//this.getTime()
+        // .compareTo(another.getTime());
     }
 }

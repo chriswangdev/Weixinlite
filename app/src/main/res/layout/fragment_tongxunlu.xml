@@ -4,4 +4,15 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <!--<Button
+        android:id="@+id/savetolitepal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/writetolitepal"/>-->
+
+    <ListView
+        android:id="@+id/list_tongxunlu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </LinearLayout>

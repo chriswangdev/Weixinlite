@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,7 +29,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        /*TextView toolbar_text = (TextView) findViewById(R.id.tool_bar_text);
+        toolbar_text.setText("微信lite");*/
         setSupportActionBar(toolbar);
 
         initBottomviews();
@@ -119,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
