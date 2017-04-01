@@ -1,6 +1,7 @@
 package com.weixinlite.android;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +27,7 @@ import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 /**
  * Created by a on 2017/3/27 0027.
@@ -46,6 +49,7 @@ public class ChattingActivity extends AppCompatActivity implements View.OnLayout
     private String msg_to_send;
 
     private ChatAdapter adapter;
+    private LinearLayoutManager layoutManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,14 +100,14 @@ public class ChattingActivity extends AppCompatActivity implements View.OnLayout
         setSupportActionBar(toolbar_chat);
 
         recyclerViewMsg = (RecyclerView) findViewById(R.id.msg_recyclerview);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(this);
         recyclerViewMsg.setLayoutManager(layoutManager);
         Log.e(TAG, "onCreateView: ----------- friends.getMsgList() = " + friends.getMsgList().size());
         chatmsgList.addAll(friends.getMsgList());//chatmsgList = friends.getMsgList();
         Log.e(TAG, "onCreateView: ----------- chatmsgList = " + chatmsgList.size());
         adapter = new ChatAdapter(chatmsgList, this, friends);
         recyclerViewMsg.setAdapter(adapter);
-        recyclerViewMsg.scrollToPosition(chatmsgList.size() - 1);
+        //recyclerViewMsg.scrollToPosition(chatmsgList.size() - 1);
     }
 
     private Friends friendstosave;
@@ -114,7 +118,8 @@ public class ChattingActivity extends AppCompatActivity implements View.OnLayout
     @Override
     protected void onResume() {
         super.onResume();
-        linearLayout.addOnLayoutChangeListener(this);
+        recyclerViewMsg.addOnLayoutChangeListener(this);
+        //linearLayout.addOnLayoutChangeListener(this);
     }
 
     @Override
@@ -169,19 +174,31 @@ public class ChattingActivity extends AppCompatActivity implements View.OnLayout
 //        Log.e(TAG, "                                      bottom = " + bottom + " top = " + top);
 //        Log.e(TAG, "                                      oldLeft = " + oldLeft + " oldRight = " + oldRight);
 //        Log.e(TAG, "                                      oldBottom = " + oldBottom + " oldTop = " + oldTop);
-
-        if (oldBottom > bottom) {
-
+        //监听输入法弹出，聊天界面上移
+        /*if (oldBottom > bottom) {
             layoutParams = (LinearLayout.LayoutParams) recyclerViewMsg.getLayoutParams();
             layoutParams.bottomMargin = oldBottom - bottom;
             recyclerViewMsg.setLayoutParams(layoutParams);
-        } else if (oldBottom == bottom ) {
+        } else if (oldBottom == bottom && layoutParams != null) {
             layoutParams = (LinearLayout.LayoutParams) recyclerViewMsg.getLayoutParams();
             layoutParams.bottomMargin = 0;
             recyclerViewMsg.setLayoutParams(layoutParams);
-        }
-        //adapter.notify();
+        }*/
         recyclerViewMsg.scrollToPosition(chatmsgList.size() - 1);
-
     }
+
+    /*private android.os.Handler mHandler = new android.os.Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
+    };
+
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            mHandler.sendEmptyMessage(0);
+        }
+    };*/
+
 }
