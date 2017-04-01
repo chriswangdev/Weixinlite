@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ChattingActivity"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
     </application>
 
 </manifest>

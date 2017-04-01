@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -29,7 +30,7 @@ import java.util.List;
  * Created by a on 2017/3/27 0027.
  */
 
-public class ChattingActivity extends AppCompatActivity {
+public class ChattingActivity extends AppCompatActivity implements View.OnLayoutChangeListener {
 
     private static final String TAG = "ChattingActivity";
     private RecyclerView recyclerViewMsg;
@@ -37,6 +38,7 @@ public class ChattingActivity extends AppCompatActivity {
     //private List<Friends> listfromlitepal;
     private List<Msg> chatmsgList = new ArrayList<>();
 
+    private LinearLayout linearLayout;
     private Button btn_send;
     private ToggleButton toggleButton;
     private EditText chat_input;
@@ -52,6 +54,7 @@ public class ChattingActivity extends AppCompatActivity {
 
         initToolBar();
 
+        linearLayout = (LinearLayout) findViewById(R.id.linearlayout);
         btn_send = (Button) findViewById(R.id.chat_send);
         toggleButton = (ToggleButton) findViewById(R.id.chat_togglebutton);
         chat_input = (EditText) findViewById(R.id.chat_input);
@@ -109,23 +112,21 @@ public class ChattingActivity extends AppCompatActivity {
     private int length;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        linearLayout.addOnLayoutChangeListener(this);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 
-        /*friendstosave = new Friends();
-        friendstosave.setName(friends.getName());
-        friendstosave.setMsgList(chatmsgList);
-        friendstosave.save();*/
-
-        /*friends.setName(friends.getName());
-        friends.setMsgList(chatmsgList);
-        friends.save();*/
         chatsize = chatmsgList.size();
         length = chatsize - friends.getMsgList().size();
         Log.e(TAG, "onPause: -------- chatmsgList.size = " + length);
 
         for (int i = 0; i < length; i ++ ) {
-
+            //只记录新增的聊天信息
             Msg msg = chatmsgList.get(chatsize - length + i);
             Log.e(TAG, "onPause: -------- msg = " + msg.getMsg());
             msg.setMsg(msg.getMsg());
@@ -135,13 +136,6 @@ public class ChattingActivity extends AppCompatActivity {
             msg.save();
         }
 
-        /*for (Msg msg : chatmsgList) {
-            msg.setMsg(msg.getMsg());
-            msg.setType(msg.getType());
-            msg.setMsgtime(msg.getMsgtime());
-            msg.setFriendName(friends.getName());
-            msg.save();
-        }*/
     }
 
     @Override
@@ -164,5 +158,30 @@ public class ChattingActivity extends AppCompatActivity {
 
         return true;
         //return super.onOptionsItemSelected(item);
+    }
+
+    LinearLayout.LayoutParams layoutParams;
+
+    @Override
+    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int
+            oldTop, int oldRight, int oldBottom) {
+//        Log.e(TAG, "onLayoutChange: ---- onLayoutChange   left = " + left + " right = " + right);
+//        Log.e(TAG, "                                      bottom = " + bottom + " top = " + top);
+//        Log.e(TAG, "                                      oldLeft = " + oldLeft + " oldRight = " + oldRight);
+//        Log.e(TAG, "                                      oldBottom = " + oldBottom + " oldTop = " + oldTop);
+
+        if (oldBottom > bottom) {
+
+            layoutParams = (LinearLayout.LayoutParams) recyclerViewMsg.getLayoutParams();
+            layoutParams.bottomMargin = oldBottom - bottom;
+            recyclerViewMsg.setLayoutParams(layoutParams);
+        } else if (oldBottom == bottom ) {
+            layoutParams = (LinearLayout.LayoutParams) recyclerViewMsg.getLayoutParams();
+            layoutParams.bottomMargin = 0;
+            recyclerViewMsg.setLayoutParams(layoutParams);
+        }
+        //adapter.notify();
+        recyclerViewMsg.scrollToPosition(chatmsgList.size() - 1);
+
     }
 }
