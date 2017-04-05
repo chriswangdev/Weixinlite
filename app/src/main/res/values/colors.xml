@@ -6,4 +6,8 @@
     <color name="qianhuise">#C7C7C7</color>
     <color name="shenhuise">#969696</color>
     <color name="white">#fff</color>
+    <!--<color name="green">#00FF00</color>
+    <color name="darkgreen">#2BD52B</color>-->
+    <color name="green">#00CD00</color>
+    <color name="darkgreen">#228B22</color>
 </resources>

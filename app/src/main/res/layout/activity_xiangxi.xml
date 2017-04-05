@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:background="@color/qianhuise">
+
+    <include
+        layout="@layout/toolbar"/>
+
+    <include
+        layout="@layout/mylist_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"/>
+
+    <Button
+        android:id="@+id/send_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
+        android:text="@string/sendMsg"
+        android:background="@drawable/sendmsg_selector"/>
+
+    <Button
+        android:id="@+id/chat_with_vedio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/chat_with_vedio"
+        android:background="@drawable/chat_wvideo_selector"/>
+
+</LinearLayout>

@@ -9,4 +9,6 @@
     <string name="receive">我收</string>
     <string name="chatmsg">聊天信息</string>
     <string name="writetolitepal">写入数据库</string>
+    <string name="sendMsg">发消息</string>
+    <string name="chat_with_vedio">视频聊天</string>
 </resources>
