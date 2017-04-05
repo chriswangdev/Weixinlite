@@ -16,6 +16,11 @@ public class Utility {
         return id;
     }
 
+    /*public static int getMyImageId(Context context) {
+        int id = context.getResources().getIdentifier("", "drawable", context.getPackageName());
+        return id;
+    }*/
+
     public static int myImageId;
 
 }

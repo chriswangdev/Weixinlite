@@ -52,7 +52,7 @@ public class Fragment_tongxunlu extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.list_tongxunlu);
         //btn_save = (Button) view.findViewById(R.id.savetolitepal);
-
+        Utility.myImageId = Utility.getImageId("imgmy",getContext());
         findfriends();
         Log.e(TAG, "onCreateView: -----findfriends();------ size = " + friendsList.size());
         if (friendsList.size() == 0) {
@@ -121,7 +121,7 @@ public class Fragment_tongxunlu extends Fragment {
         //friends.setIstop(false);
         friends.save();
         // list.add(friends);
-        Utility.myImageId = Utility.getImageId("imgmy",getContext());
+        //Utility.myImageId = Utility.getImageId("imgmy",getContext());
         // }
 
     }
