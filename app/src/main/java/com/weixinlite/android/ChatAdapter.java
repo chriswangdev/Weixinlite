@@ -39,12 +39,28 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ChatAdapter.ViewHolder holder, int position) {
         Msg msg = msgList.get(position);
-        /*SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日   HH:mm:ss");
-        Date curDate =  new Date(System.currentTimeMillis());*/
-        String time = Gettime.getNowTime();
-        msg.setMsgtime(time);
+        String time = msg.getMsgtime();
         Log.e(TAG, "onBindViewHolder: --- time = " + time);
-        holder.textView_time.setText(time);
+        //Log.e(TAG, "onBindViewHolder: --- timelength = " + time.length());
+        //Log.e(TAG, "onBindViewHolder: --- timelong = " + Gettime.getLongTime(time));
+        //超过一分钟显示时间
+        String timelite = time.substring(14,22);
+        if (position == 0) {//第一条信息显示时间
+            holder.textView_time.setVisibility(View.VISIBLE);
+            if (Gettime.getDiffer(Gettime.getNowTime(),time) > 86400000) {
+                holder.textView_time.setText(time);
+            } else {
+                holder.textView_time.setText(timelite);
+            }
+        } else if ((position > 0) && (Gettime.getDiffer(time,msgList.get(position - 1).getMsgtime()) > 60000)) {
+            holder.textView_time.setVisibility(View.VISIBLE);
+            holder.textView_time.setText(timelite);
+        } else {
+            holder.textView_time.setVisibility(View.GONE);
+        }
+
+        /*String timelite = time.substring(14,22);
+        holder.textView_time.setText(timelite);*/
         if (msg.getType() == Msg.TYPE_RECEIVED) {
             holder.chat_my_img.setVisibility(View.GONE);
             holder.chat_msg_my.setVisibility(View.GONE);

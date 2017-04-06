@@ -20,6 +20,7 @@ public class Msg extends DataSupport implements Serializable{//extends Friends{
     public String friendName;
 
     public String msgtime;
+    public long timelong;
 
     //public int friends_id;
 

@@ -79,11 +79,11 @@ public class Fragment_tongxunlu extends Fragment {
             }
         });
 
-
         return view;
     }
 
     private void findfriends() {
+        this.friendsList.removeAll(friendsList);
         list = DataSupport.findAll(Friends.class);
 
         for (int i = 0; i < list.size(); i++) {
@@ -98,15 +98,13 @@ public class Fragment_tongxunlu extends Fragment {
             this.friendsList.add(friends);
 
         }
-
     }
 
     private void writetolitepal() {
 
         Friends friends = new Friends();
 
-        friends.setImageId(Utility.getImageId("beautyone", getContext()));//friends.setImageId(R
-        // .drawable.beautyone);
+        friends.setImageId(Utility.getImageId("beautyone", getContext()));
         friends.setName("小王");
 
         List<Msg> msgList = new ArrayList<>();
@@ -116,44 +114,22 @@ public class Fragment_tongxunlu extends Fragment {
         msg.save();
         msgList.add(msg);
         friends.setMsgList(msgList);
-        //friends.setMsg("你好");
-        //friends.setTime("10:05");
-        //friends.setIstop(false);
         friends.save();
-        //list.add(friends);
-
-        //for (int i = 0; i < 2; i++) {
 
         friends = new Friends();
         friends.setImageId(Utility.getImageId("beautytwo", getContext()));
         friends.setName("小丽");
-        //friends.setMsg("你好");
-        //friends.setTime("10:20");
-        //friends.setIstop(false);
         friends.save();
-        //list.add(friends);
-
 
         friends = new Friends();
         friends.setImageId(Utility.getImageId("beautythree", getContext()));
         friends.setName("小小");
-        //friends.setMsg("阿什顿飞");
-        //friends.setTime("15:45");
-        //friends.setIstop(false);
         friends.save();
-        //list.add(friends);
-
 
         friends = new Friends();
         friends.setImageId(Utility.getImageId("beautyfour", getContext()));
         friends.setName("妹子");
-        //friends.setMsg("隧道股份");
-        //friends.setTime("17:05");
-        //friends.setIstop(false);
         friends.save();
-        // list.add(friends);
-        //Utility.myImageId = Utility.getImageId("imgmy",getContext());
-        // }
 
     }
 

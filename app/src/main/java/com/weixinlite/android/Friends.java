@@ -80,9 +80,9 @@ public class Friends extends DataSupport implements Comparable<Friends>, Seriali
     @Override
     public int compareTo(Friends another) {
 
-        /*return this.getMsgList().get(this.getMsgList().size()).getMsgtime().compareTo(another
-                .getMsgList().get(another.getMsgList().size()).getMsgtime());*/
-        return this.getName().compareTo(another.getName());
+        return this.getMsgList().get(this.getMsgList().size() - 1).getMsgtime().compareTo(another
+                .getMsgList().get(another.getMsgList().size() - 1).getMsgtime());
+        //return this.getName().compareTo(another.getName());
         //return this.msg.getMsgtime().compareTo(another.msg.getMsgtime());//this.getTime()
         // .compareTo(another.getTime());
     }

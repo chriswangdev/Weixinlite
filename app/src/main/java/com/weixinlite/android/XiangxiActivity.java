@@ -2,10 +2,13 @@ package com.weixinlite.android;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -46,7 +49,7 @@ public class XiangxiActivity extends AppCompatActivity {
                 bundle.putSerializable("friends",friends);
                 intent.putExtras(bundle);
                 startActivity(intent);
-
+                finish();
             }
         });
 
@@ -81,8 +84,29 @@ public class XiangxiActivity extends AppCompatActivity {
 
         Glide.with(this).load(friends.getImageId()).into(imageView);
         textView_id.setText(friends.getName());
+        textView_nicheng.setTextColor(Color.parseColor("#969696"));
         textView_nicheng.setText("昵称：" + friends.getName());
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.more_xiangxi:
+                Toast.makeText(this, "更多", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_xiangxi, menu);
+        return true;
+    }
 }

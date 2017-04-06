@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.weixinlite.android.Friends;
 import com.weixinlite.android.R;
+import com.weixinlite.android.util.Gettime;
 
 import java.util.List;
 
@@ -30,6 +31,9 @@ public class MyAdapter extends BaseAdapter {
     private List<Friends> friendsList;
     private Context mContext;
     private int length;
+
+    private String time = "";
+    private String timelite = "";
 
     public MyAdapter(Context context, List<Friends> friendsList) {
         mContext = context;
@@ -83,9 +87,15 @@ public class MyAdapter extends BaseAdapter {
         viewHolder.item_name.setText(friendsList.get(position).getName());
         length = friendsList.get(position).getMsgList().size();
         viewHolder.item_msg.setText(friendsList.get(position).getMsgList().get(length - 1).getMsg());
-        viewHolder.item_time.setText(friendsList.get(position).getMsgList().get(length - 1).getMsgtime());
-        //viewHolder.item_msg.setText(friendsList.get(position).getMsg().getMsg());
-        //viewHolder.item_time.setText(friendsList.get(position).getMsg().getMsgtime());
+
+        time = friendsList.get(position).getMsgList().get(length - 1).getMsgtime();
+        timelite = time.substring(14,22);
+        if (Gettime.getDiffer(Gettime.getNowTime(),time) > 86400000) {
+            viewHolder.item_time.setText(time);
+        } else {
+            viewHolder.item_time.setText(timelite);
+        }
+        //viewHolder.item_time.setText(friendsList.get(position).getMsgList().get(length - 1).getMsgtime());
 
         return convertView;
     }

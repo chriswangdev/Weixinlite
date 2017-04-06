@@ -74,20 +74,14 @@ public class Fragment_weixin extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.list_weixin);
 
-        /*SimpleAdapter adapter = new SimpleAdapter(getContext(), getData(), R.layout.mylist_item,
-                new String[]{"imageid", "name", "msg", "time"}, new int[]{R.id.item_img, R.id
-                .item_name, R.id.item_msg, R.id.item_time});*/
-
-        //if (friendsListsave.size() == 0) {
-            //friendsListsave = DataSupport.where("? > 0","msgList").find(Friends.class);//getData();
-
         refreshchat();
 
         friendsListnotTop.addAll(friendsListsave);
 
         adapter = new MyAdapter(getContext(), friendsListsave);
 
-        Collections.sort(friendsListsave);
+        //Collections.sort(friendsListsave);//升序
+        //Collections.sort(friendsListsave,Collections.<Friends>reverseOrder());//降序
 
         listView.setAdapter(adapter);
 
@@ -232,7 +226,8 @@ public class Fragment_weixin extends Fragment {
 
         Log.e(TAG, "onCreateView: ---- size = " + list.size());
 
-        for (int i = 0; i < list.size(); i++) {
+        //for (int i = 0; i < list.size(); i++) {
+        for (int i = list.size() - 1; i >= 0; i--) {
             Friends friends = new Friends();
 
             friends.setName(list.get(i).getName());
