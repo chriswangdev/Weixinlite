@@ -20,7 +20,8 @@
             android:name=".ChattingActivity"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity android:name=".XiangxiActivity"/>
-        <activity android:name=".SearchActivity">
+        <activity android:name=".SearchActivity"
+            android:windowSoftInputMode="stateVisible">
         </activity>
     </application>
 

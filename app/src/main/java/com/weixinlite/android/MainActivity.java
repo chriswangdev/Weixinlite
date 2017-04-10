@@ -1,5 +1,6 @@
 package com.weixinlite.android;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -133,7 +134,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (item.getItemId()) {
             case R.id.search:
-                Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
                 break;
             case R.id.more:
                 Toast.makeText(this, "More", Toast.LENGTH_SHORT).show();

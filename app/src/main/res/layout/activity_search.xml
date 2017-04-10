@@ -9,5 +9,8 @@
     tools:context="com.weixinlite.android.SearchActivity">
 
 
+    <include
+        layout="@layout/toolbar_search"/>
+
 
 </LinearLayout>
